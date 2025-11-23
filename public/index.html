@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkUp - Premium Networking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Landing Screen -->
+        <div id="landing-screen" class="glass-card animate-fade-in">
+            <h1>LinkUp</h1>
+            <p>Instant networking for modern meetups.</p>
+
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <span class="feature-icon">📱</span>
+                    <span class="feature-text">Scan & Join</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">👥</span>
+                    <span class="feature-text">Real-time List</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🔗</span>
+                    <span class="feature-text">Share LinkedIn</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">💬</span>
+                    <span class="feature-text">Group Chat</span>
+                </div>
+            </div>
+
+            <button id="btn-create-room" class="btn">Create New Room</button>
+            <button id="btn-enter-code" class="btn btn-secondary">Enter Code</button>
+
+            <div style="margin-top: 20px;">
+                <span id="link-terms" class="footer-link">Terms & Conditions</span>
+            </div>
+        </div>
+
+        <!-- Join Screen -->
+        <div id="join-screen" class="glass-card hidden">
+            <h2>Join Room</h2>
+            <p>Enter your details to connect.</p>
+            <input type="text" id="input-name" placeholder="Your Name" autocomplete="off">
+            <input type="text" id="input-room-id" placeholder="Room Code" autocomplete="off">
+            <button id="btn-join" class="btn">Join Now</button>
+            <button id="btn-back-home" class="btn btn-secondary">Back</button>
+        </div>
+
+        <!-- Room Screen -->
+        <div id="room-screen" class="glass-card hidden">
+            <div class="header">
+                <h2 id="room-id-display">Room: ----</h2>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="participants">Participants</button>
+                <button class="tab-btn" data-tab="chat">Chat</button>
+                <button class="tab-btn" data-tab="share">Share</button>
+            </div>
+
+            <!-- Tab Content: Participants -->
+            <div id="tab-participants" class="tab-content">
+                <div id="qrcode" class="hidden"></div>
+                <p id="scan-hint" class="hidden" style="font-size: 0.8rem; margin-top: 10px;">Scan to join</p>
+
+                <div class="user-list" id="user-list">
+                    <!-- Users will appear here -->
+                </div>
+            </div>
+
+            <!-- Tab Content: Chat -->
+            <div id="tab-chat" class="tab-content hidden">
+                <div class="chat-container">
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="message others">
+                            <span class="message-sender">System</span>
+                            Welcome to the chat!
+                        </div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="input-chat" placeholder="Type a message..." autocomplete="off">
+                        <button id="btn-send-chat" class="btn btn-send">➤</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Share -->
+            <div id="tab-share" class="tab-content hidden">
+                <p>Share your LinkedIn profile with everyone in the room.</p>
+                <div id="current-link-display" class="hidden"
+                    style="margin-bottom: 15px; padding: 10px; background: rgba(37, 99, 235, 0.1); border-radius: 8px; font-size: 0.9rem;">
+                    <strong>Your shared link:</strong> <br>
+                    <a href="#" target="_blank" style="color: var(--primary); word-break: break-all;"></a>
+                </div>
+                <input type="text" id="input-linkedin" placeholder="https://linkedin.com/in/yourname">
+                <button id="btn-share" class="btn">Share Profile</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Terms Modal -->
+    <div id="terms-modal" class="modal-overlay hidden">
+        <div class="modal animate-fade-in">
+            <button id="btn-close-modal" class="close-modal">&times;</button>
+            <h2>Terms & Conditions</h2>
+            <p>Welcome to LinkUp. By using this platform, you agree to the following terms:</p>
+            <ul>
+                <li><strong>Community Use Only:</strong> This platform is designed for professional networking at
+                    events.</li>
+                <li><strong>Respect Privacy:</strong> Do not share others' personal information without consent.</li>
+                <li><strong>No Harassment:</strong> Any form of harassment or inappropriate behavior is strictly
+                    prohibited.</li>
+                <li><strong>Data Usage:</strong> We do not store your data permanently. Rooms are temporary and data is
+                    cleared when the session ends.</li>
+                <li><strong>Liability:</strong> LinkUp is provided "as is" without warranties of any kind. We are not
+                    responsible for connections made or information shared.</li>
+            </ul>
+            <p>By continuing to use LinkUp, you acknowledge that you have read and understood these terms.</p>
+            <button id="btn-accept-terms" class="btn">I Agree</button>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
