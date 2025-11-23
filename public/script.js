@@ -108,16 +108,24 @@ btnJoin.addEventListener('click', () => {
     myName = name;
     currentRoomId = roomId;
 
+    // Timeout to prevent getting stuck
+    const joinTimeout = setTimeout(() => {
+        btnJoin.textContent = 'Join Now';
+        btnJoin.disabled = false;
+        alert('Request timed out. Please check your connection and try again.');
+    }, 10000);
+
     socket.emit('join-room', { roomId, name }, (response) => {
+        clearTimeout(joinTimeout);
         btnJoin.textContent = 'Join Now';
         btnJoin.disabled = false;
 
-        if (response.success) {
+        if (response && response.success) {
             enterRoom(roomId, false);
             // Populate existing users
             response.users.forEach(addUserToUI);
         } else {
-            alert(response.message || 'Failed to join room');
+            alert(response?.message || 'Failed to join room. Please check the room code.');
         }
     });
 });
@@ -163,6 +171,15 @@ socket.on('user-left', (userId) => {
 
 socket.on('chat-message', (msgData) => {
     addChatMessage(msgData);
+});
+
+// Connection Error Handling
+socket.on('connect_error', (err) => {
+    console.error('Connection Error:', err);
+});
+
+socket.on('disconnect', () => {
+    console.warn('Disconnected from server');
 });
 
 // Logic
@@ -228,7 +245,6 @@ function updateUserUI(user) {
         }
     }
 }
-
 
 function addChatMessage(data) {
     const div = document.createElement('div');
